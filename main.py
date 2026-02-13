@@ -74,7 +74,7 @@ def load_player_gameweek_stats(data_dir, gameweek_ids, season=None):
 
 def main():
     # Paths - adjust these if needed
-    fpl_data_dir = Path("/Users/wenhao.aw/Desktop/misc_projects/FPL-Core-Insights/data/2025-2026")
+    fpl_data_dir = Path("../FPL-Core-Insights/data/2025-2026")
     gameweek_summaries_path = fpl_data_dir / "gameweek_summaries.csv"
     
     print("Loading gameweek summaries...")
