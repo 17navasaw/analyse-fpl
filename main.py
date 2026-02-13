@@ -33,17 +33,22 @@ def get_recent_finished_gameweeks(gameweek_summaries_path, num_gameweeks=5):
     return recent_gameweeks
 
 
-def load_player_gameweek_stats(data_dir, gameweek_ids):
+def load_player_gameweek_stats(data_dir, gameweek_ids, season=None):
     """
     Load player_gameweek_stats from multiple gameweeks and combine into a single dataframe.
     
     Args:
         data_dir: Base data directory (e.g., path to FPL-Core-Insights/data/2025-2026)
         gameweek_ids: List of gameweek IDs to load
+        season: Season identifier (e.g., "2025-2026"). If None, extracted from data_dir path.
     
     Returns:
         Combined pandas DataFrame with all player gameweek stats
     """
+    # Extract season from data_dir if not provided
+    if season is None:
+        season = Path(data_dir).name
+    
     dataframes = []
     
     for gw_id in gameweek_ids:
@@ -51,6 +56,10 @@ def load_player_gameweek_stats(data_dir, gameweek_ids):
         
         if gw_path.exists():
             df = pd.read_csv(gw_path)
+            # Add gameweek column to identify which gameweek this data belongs to
+            df['gameweek'] = gw_id
+            # Add season column to identify which season this data belongs to
+            df['season'] = season
             dataframes.append(df)
             print(f"Loaded {len(df)} rows from GW{gw_id}")
         else:
