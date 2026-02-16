@@ -12,6 +12,6 @@ logging.basicConfig(
     format='%(asctime)s.%(msecs)03d|%(levelname)s|%(process)d:%(thread)d|%(filename)s:%(lineno)d|%(module)s.%(funcName)s|%(message)s',
 )
 
-@app.get("/analyse")
+@app.get("/api/analyse")
 def analyse() -> FPLAnalysisResponse:
     return analyse_fpl()
