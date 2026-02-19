@@ -22,7 +22,7 @@ class PlayerGameweekStats(BaseModel):
     now_cost: Optional[float] = None
     
     # Performance stats
-    total_points: Optional[int] = None
+    event_points: Optional[int] = None
     minutes: Optional[int] = None
     goals_scored: Optional[int] = None
     assists: Optional[int] = None
