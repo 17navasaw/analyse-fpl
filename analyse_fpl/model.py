@@ -1,5 +1,5 @@
-from typing import Dict, List, Optional
-from pydantic import BaseModel, ConfigDict
+from typing import Dict, List, Optional, Any
+from pydantic import BaseModel, ConfigDict, field_validator, model_validator
 
 
 class PlayerGameweekStats(BaseModel):
@@ -45,6 +45,23 @@ class PlayerGameweekStats(BaseModel):
     
     # Additional fields - using Any for flexibility with remaining dataframe columns
     model_config = ConfigDict(extra="allow")  # Allow extra fields from the dataframe
+    
+    @field_validator('now_cost', 'team_elo', mode='before')
+    @classmethod
+    def round_floats(cls, v: Any) -> Any:
+        """Round float values to 2 decimal places."""
+        if v is not None and isinstance(v, (int, float)):
+            return round(float(v), 2)
+        return v
+    
+    @model_validator(mode='after')
+    def round_extra_float_fields(self):
+        """Round any extra float fields from the dataframe to 2 decimal places."""
+        if hasattr(self, '__pydantic_extra__') and self.__pydantic_extra__:
+            for key, value in self.__pydantic_extra__.items():
+                if isinstance(value, (float)):
+                    self.__pydantic_extra__[key] = round(float(value), 2)
+        return self
 
 
 class FPLAnalysisResponse(BaseModel):
