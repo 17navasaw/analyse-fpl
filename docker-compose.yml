@@ -1,0 +1,10 @@
+services:
+  api:
+    build: .
+    container_name: analyse-fpl-be
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=production
+      - PYTHONUNBUFFERED=1
