@@ -222,12 +222,20 @@ def get_next_gameweek(gameweek_summaries_path):
     return None
 
 
-def analyse_fpl() -> FPLAnalysisResponse:
+def analyse_fpl(season: str = "2025-2026") -> FPLAnalysisResponse:
     # Paths - adjust these if needed
-    fpl_data_dir = Path("../FPL-Core-Insights/data/2025-2026")
+    fpl_data_dir = Path("../FPL-Core-Insights/data") / season
     gameweek_summaries_path = fpl_data_dir / "gameweek_summaries.csv"
-    
-    logging.info("Loading gameweek summaries...")
+
+    if not gameweek_summaries_path.exists():
+        logging.warning(f"No data found for season {season}: {gameweek_summaries_path} does not exist")
+        return FPLAnalysisResponse(
+            past_gameweeks=[],
+            next_gameweek=None,
+            player_stats={}
+        )
+
+    logging.info(f"Loading gameweek summaries for season {season}...")
     recent_gameweeks = get_recent_finished_gameweeks(gameweek_summaries_path, num_gameweeks=5)
     
     if not recent_gameweeks:
