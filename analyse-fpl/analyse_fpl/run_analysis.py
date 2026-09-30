@@ -3,6 +3,7 @@ import pandas as pd
 from pathlib import Path
 from typing import Dict, List
 from analyse_fpl.model import FPLAnalysisResponse, PlayerGameweekStats
+from analyse_fpl.seasons import get_season_data_dir
 
 
 def get_recent_finished_gameweeks(gameweek_summaries_path, num_gameweeks=5):
@@ -222,9 +223,8 @@ def get_next_gameweek(gameweek_summaries_path):
     return None
 
 
-def analyse_fpl(season: str = "2025-2026") -> FPLAnalysisResponse:
-    # Paths - adjust these if needed
-    fpl_data_dir = Path("../FPL-Core-Insights/data") / season
+def analyse_fpl(season: str) -> FPLAnalysisResponse:
+    fpl_data_dir = get_season_data_dir(season)
     gameweek_summaries_path = fpl_data_dir / "gameweek_summaries.csv"
 
     if not gameweek_summaries_path.exists():
@@ -311,4 +311,4 @@ def analyse_fpl(season: str = "2025-2026") -> FPLAnalysisResponse:
 
 
 # if __name__ == "__main__":
-#     print(analyse_fpl().model_dump_json())
+#     print(analyse_fpl("2026-2027").model_dump_json())

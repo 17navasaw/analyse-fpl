@@ -1,4 +1,10 @@
+/FPL-Core-Insights/
 .idea/
 .venv/
 log/
 __pycache__/
+.pytest_cache/
+*.py[cod]
+.env
+.env.*
+!.env.example

@@ -8,3 +8,5 @@ services:
     environment:
       - ENV=production
       - PYTHONUNBUFFERED=1
+    volumes:
+      - /root/analyse-fpl/analyse-fpl-be/FPL-Core-Insights/data:/app/FPL-Core-Insights/data
